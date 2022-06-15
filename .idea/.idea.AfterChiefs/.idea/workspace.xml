@@ -8,6 +8,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerDamageHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/UI/Scripts/Main Menu Buttons/MainMenuUI.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -71,6 +72,7 @@
       <workItem from="1654909898196" duration="718000" />
       <workItem from="1655143947778" duration="10339000" />
       <workItem from="1655229388679" duration="6775000" />
+      <workItem from="1655324297744" duration="5430000" />
     </task>
     <servers />
   </component>

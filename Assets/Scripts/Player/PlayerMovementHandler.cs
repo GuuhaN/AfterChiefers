@@ -7,7 +7,7 @@ namespace Player
     public class PlayerMovementHandler : MonoBehaviour
     {
         [SerializeField, Range(100, 2000)] private int JumpForce;
-        [SerializeField, Range(1, 10)] private int GroundedDistance;
+        [SerializeField, Range(5, 20)] private int GroundedDistance;
         [SerializeField, Range(1, 10)] private int MovementSpeed;
 
         private Animator m_Animator;
@@ -25,18 +25,7 @@ namespace Player
 
         private void FixedUpdate()
         {
-            m_Rigidbody2D.velocity = new Vector2((MovementSpeed * 100) *
-                                                 GetControls().x *
-                                                 Time.deltaTime, m_Rigidbody2D.velocity.y);
-            
-            m_Animator.SetFloat("Movement", Mathf.Abs(m_Rigidbody2D.velocity.x));
-
-            if (GetControls().x < 0 && !_spriteFlipped)
-                _spriteFlipped = true;
-            else if (GetControls().x > 0 && _spriteFlipped)
-                _spriteFlipped = false;
-
-            m_SpriteRenderer.flipX = _spriteFlipped;
+            Movement();
         }
 
         void Update()
@@ -51,12 +40,31 @@ namespace Player
                 m_Animator.SetTrigger("Attack");
         }
 
+        private void Movement()
+        {
+            m_Rigidbody2D.velocity = new Vector2((MovementSpeed * 100) *
+                                                 GetControls().x *
+                                                 Time.deltaTime, m_Rigidbody2D.velocity.y);
+
+            m_Animator.SetFloat("Movement", Mathf.Abs(m_Rigidbody2D.velocity.x));
+
+            if (GetControls().x < 0 && !_spriteFlipped)
+                _spriteFlipped = true;
+            else if (GetControls().x > 0 && _spriteFlipped)
+                _spriteFlipped = false;
+
+            m_SpriteRenderer.flipX = _spriteFlipped;
+        }
+
         private bool IsGrounded()
         {
             int layerMask = 1 << 9;
+            int groundedDistanceNormalized = GroundedDistance / 5;
             layerMask = ~layerMask;
 
-            return Physics2D.Raycast(transform.position, Vector2.down, GroundedDistance, layerMask);
+            return Physics2D.Raycast(transform.position, Vector2.down, groundedDistanceNormalized, layerMask) ||
+                   Physics2D.Raycast(transform.position, new Vector2(.75f, -1f), groundedDistanceNormalized * 1.35f, layerMask) ||
+                   Physics2D.Raycast(transform.position, new Vector2(-.75f, -1f), groundedDistanceNormalized * 1.35f, layerMask);
         }
 
         private Vector2 GetControls()
